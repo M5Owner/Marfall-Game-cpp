@@ -1,0 +1,18 @@
+﻿La génération a démarré 24/11/2015 12:24:28.
+     1>Projet "C:\Users\ali\Desktop\MarFall\MarFall\MarFall.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\SFML-2.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt input.cpp main.cpp map.cpp player.cpp
+         player.cpp
+     1>c:\users\ali\desktop\marfall\marfall\player.h(7): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+         map.cpp
+     1>c:\users\ali\desktop\marfall\marfall\map.h(7): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+         main.cpp
+     1>c:\users\ali\desktop\marfall\marfall\main.h(6): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+         input.cpp
+     1>c:\users\ali\desktop\marfall\marfall\input.h(6): fatal error C1083: Impossible d'ouvrir le fichier include : 'SFML/Graphics.hpp' : No such file or directory
+         Génération de code en cours...
+     1>Génération du projet "C:\Users\ali\Desktop\MarFall\MarFall\MarFall.vcxproj" terminée (Build cible(s)) -- ÉCHEC.
+
+ÉCHEC de la build.
+
+Temps écoulé 00:00:00.37
