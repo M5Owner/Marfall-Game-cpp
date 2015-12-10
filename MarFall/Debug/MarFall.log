@@ -1,17 +1,8 @@
-﻿La génération a démarré 09/12/2015 22:34:10.
-     1>Projet "C:\Users\ali\Desktop\MarFall\MarFall\MarFall.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Users\ali\Desktop\MarFall\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\ali\Desktop\MarFall\Debug\MarFall.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\ali\Desktop\MarFall\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" "sfml-main-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\ali\Desktop\MarFall\Debug\MarFall.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\ali\Desktop\MarFall\Debug\MarFall.lib" /MACHINE:X86 Debug\input.obj
-         Debug\main.obj
-         Debug\map.obj
-         Debug\player.obj
-     1>sfml-main-d.lib(MainWin32.cpp.obj) : warning LNK4099: PDB 'vc140.pdb' n'a pu Ûtre trouvÚ avec 'sfml-main-d.lib(MainWin32.cpp.obj)' ou sur 'C:\Users\ali\Desktop\MarFall\Debug\vc140.pdb'á; l'objet sera liÚ sans informations de dÚbogage
-         MarFall.vcxproj -> C:\Users\ali\Desktop\MarFall\Debug\MarFall.exe
-     1>Génération du projet "C:\Users\ali\Desktop\MarFall\MarFall\MarFall.vcxproj" terminée (Build cible(s)).
+﻿Build started 10/12/2015 20:13:34.
+     1>Project "C:\Users\kirab\Desktop\Marfall-Game-cpp\MarFall\MarFall.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets(64,5): error MSB8020: The build tools for v140 (Platform Toolset = 'v140') cannot be found. To build using the v140 build tools, please install v140 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Upgrade Solution...".
+     1>Done Building Project "C:\Users\kirab\Desktop\Marfall-Game-cpp\MarFall\MarFall.vcxproj" (Build target(s)) -- FAILED.
 
-La génération a réussi.
+Build FAILED.
 
-Temps écoulé 00:00:02.59
+Time Elapsed 00:00:01.24
