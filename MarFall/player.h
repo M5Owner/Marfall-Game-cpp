@@ -106,9 +106,9 @@ private:
 	int wasOnGround;
 	int wasOnSlope;
 
-	//Spritesheet de Rabidja
-	sf::Texture rabidjaTexture;
-	sf::Sprite rabidja;
+	//Spritesheet de Marfall
+	sf::Texture marfallTexture;
+	sf::Sprite marfall;
 
 	//Nombre max de levels
 	const int   LEVEL_MAX = 2;

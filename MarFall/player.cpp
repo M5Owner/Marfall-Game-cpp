@@ -13,13 +13,13 @@ using namespace sf;
 Player::Player()
 {
 	// le spritesheet de Marfall zin del 3alaaam
-	if (!rabidjaTexture.loadFromFile("graphics/rabidja.png"))
+	if (!marfallTexture.loadFromFile("graphics/marfall.png"))
 	{
 		// Erreur
-		cout << "Erreur durant le chargement du spritesheet de Rabidja." << endl;
+		cout << "Erreur durant le chargement du spritesheet de Marfall." << endl;
 	}
 	else
-		rabidja.setTexture(rabidjaTexture);
+		marfall.setTexture(marfallTexture);
 
 	//Initialisation des variables :
 	dirX = 0;
@@ -88,7 +88,7 @@ void Player::initialize(Map &map, bool newLevel)
 	//...la valeur de son chrono ou timer
 	frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
 
-	
+
 	frameMax = 8;
 
 	/* Coordonnées de démarrage/respawn de notre héros */
@@ -145,59 +145,59 @@ void Player::draw(Map &map, RenderWindow &window)
 
 
 	//Ensuite, on peut passer la main à notre fonction
-	rabidja.setPosition(Vector2f(x - map.getStartX(), y - map.getStartY()));
+	marfall.setPosition(Vector2f(x - map.getStartX(), y - map.getStartY()));
 
-	
+
 
 	//Si on a été touché et qu'on est invincible
 	if (invincibleTimer > 0)
 	{
 		//On fait clignoter le héros une frame sur deux
-		
+
 		if (frameNumber % 2 == 0)
 		{
 			//Gestion du flip 
 			if (direction == LEFT)
 			{
-				
-				rabidja.setTextureRect(sf::IntRect(
+
+				marfall.setTextureRect(sf::IntRect(
 					(frameNumber + 1) * w,
 					etat * h,
 					-w, h));
-				window.draw(rabidja);
+				window.draw(marfall);
 			}
 			else
 			{
-				rabidja.setTextureRect(sf::IntRect(
+				marfall.setTextureRect(sf::IntRect(
 					frameNumber * w,
 					etat * h,
 					w, h));
-				window.draw(rabidja);
+				window.draw(marfall);
 			}
 		}
-		
+
 	}
 
-	
+
 	else
 	{
 		//Gestion du flip (retournement de l'image selon que le sprite regarde à droite ou à gauche)
 		if (direction == LEFT)
 		{
 			//On n'a plus de flip auto en SFML, il faut donc tout calculer
-			rabidja.setTextureRect(sf::IntRect(
+			marfall.setTextureRect(sf::IntRect(
 				(frameNumber + 1) * w,
 				etat * h,
 				-w, h));
-			window.draw(rabidja);
+			window.draw(marfall);
 		}
 		else
 		{
-			rabidja.setTextureRect(sf::IntRect(
+			marfall.setTextureRect(sf::IntRect(
 				frameNumber * w,
 				etat * h,
 				w, h));
-			window.draw(rabidja);
+			window.draw(marfall);
 		}
 	}
 
@@ -207,34 +207,34 @@ void Player::draw(Map &map, RenderWindow &window)
 
 void Player::update(Input &input, Map &map)
 {
-	
+
 	//on réinitialise.
-	
+
 	if (timerMort == 0)
 	{
 		//On gère le timer de l'invincibilité
 		if (invincibleTimer > 0)
 			invincibleTimer--;
 
-		
+
 		dirX = 0;
 
 		// La gravité fait toujours tomber le perso : on incrémente donc le vecteur Y
 		dirY += GRAVITY_SPEED;
 
-		
+
 		if (dirY >= MAX_FALL_SPEED)
 			dirY = MAX_FALL_SPEED;
 
 
-		
+
 		if (input.getButton().left == true)
 		{
 			dirX -= PLAYER_SPEED;
-			
+
 			direction = LEFT;
 
-			
+
 			if (etat != WALK && onGround == true)
 			{
 				//On enregistre l'anim' de la marche et on l'initialise à 0
@@ -254,7 +254,7 @@ void Player::update(Input &input, Map &map)
 			//de l'affichage, rappelez-vous).
 			direction = RIGHT;
 
-			
+
 			if (etat != WALK && onGround == true)
 			{
 				//On enregistre l'anim' de la marche et on l'initialise à 0
@@ -282,8 +282,8 @@ void Player::update(Input &input, Map &map)
 		}
 
 
-		
-		if (input.getButton().up== true)
+
+		if (input.getButton().up == true)
 		{
 			if (onGround == true)
 			{
@@ -332,7 +332,7 @@ void Player::update(Input &input, Map &map)
 			}
 		}
 
-		
+
 		mapCollision(map);
 
 		//On gère le scrolling
@@ -340,7 +340,7 @@ void Player::update(Input &input, Map &map)
 
 	}
 
-	
+
 	if (timerMort > 0)
 	{
 		timerMort--;
@@ -360,7 +360,7 @@ void Player::update(Input &input, Map &map)
 
 void Player::centerScrolling(Map &map)
 {
-	
+
 	int cxperso = x + w / 2;
 	int cyperso = y + h / 2;
 	int xlimmin = map.getStartX() + LIMITE_X;
@@ -368,7 +368,7 @@ void Player::centerScrolling(Map &map)
 	int ylimmin = map.getStartY() + LIMITE_Y;
 	int ylimmax = ylimmin + LIMITE_H;
 
-	
+
 	if (cxperso < map.getStartX())
 	{
 		map.setStartX(map.getStartX() - 30);
@@ -380,7 +380,7 @@ void Player::centerScrolling(Map &map)
 		map.setStartX(map.getStartX() - 4);
 	}
 
-	
+
 	if (cxperso > map.getStartX() + SCREEN_WIDTH)
 	{
 		map.setStartX(map.getStartX() + 30);
@@ -398,7 +398,7 @@ void Player::centerScrolling(Map &map)
 		map.setStartX(0);
 	}
 
-	
+
 	else if (map.getStartX() + SCREEN_WIDTH >= map.getMaxX())
 	{
 		map.setStartX(map.getMaxX() - SCREEN_WIDTH);
@@ -430,7 +430,7 @@ void Player::centerScrolling(Map &map)
 		map.setStartY(0);
 	}
 
-	
+
 	else if (map.getStartY() + SCREEN_HEIGHT >= map.getMaxY())
 	{
 		map.setStartY(map.getMaxY() - SCREEN_HEIGHT);
@@ -451,10 +451,10 @@ void Player::mapCollision(Map &map)
 	posXmem = x;
 	posYmem = y;
 
-	
+
 	onGround = 0;
 
-	
+
 
 	if (h > TILE_SIZE)
 		i = TILE_SIZE;
@@ -471,11 +471,11 @@ void Player::mapCollision(Map &map)
 		x1 = (x + dirX) / TILE_SIZE;
 		x2 = (x + dirX + w - 1) / TILE_SIZE;
 
-		
+
 		y1 = (y) / TILE_SIZE;
 		y2 = (y + i - 1) / TILE_SIZE;
 
-		
+
 		if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
 		{
 			//Si on a un mouvement à droite
@@ -484,7 +484,7 @@ void Player::mapCollision(Map &map)
 				//On vérifie si les tiles recouvertes sont solides
 				if (map.getTile(y1, x2) > BLANK_TILE || map.getTile(y2, x2) > BLANK_TILE)
 				{
-					
+
 
 					x = x2 * TILE_SIZE;
 					x -= w + 1;
@@ -541,7 +541,7 @@ void Player::mapCollision(Map &map)
 		{
 			if (dirY > 0)
 			{
-				
+
 				if (map.getTile(y2, x1) > TILE_TRAVERSABLE || map.getTile(y2, x2) > TILE_TRAVERSABLE)
 				{
 					//Si la tile est une plateforme ou une tile solide, on y colle le joueur et
@@ -612,7 +612,7 @@ void Player::mapCollision(Map &map)
 
 Player::Point Player::segment2segment(int Ax0, int Ay0, int Bx0, int By0, int Cx0, int Cy0, int Dx0, int Dy0)
 {
-	
+
 
 	// Cette fonciton permet de savoir si 2 segments se touchent
 	// En paramètres, les coordonnées des points du segment AB et du segment CD
@@ -654,7 +654,7 @@ Player::Point Player::segment2segment(int Ax0, int Ay0, int Bx0, int By0, int Cx
 		}
 		else if ((Ax == Cx && Ay == Cy) || (Ax == Dx && Ay == Dy))
 		{
-			
+
 			Sx = Ax;
 			Sy = Ay;
 		}
@@ -681,7 +681,7 @@ Player::Point Player::segment2segment(int Ax0, int Ay0, int Bx0, int By0, int Cx
 
 void Player::getSlopeSegment(int tx, int ty, int pente, Point &s1, Point &s2)
 {
-	
+
 
 	int cy, dy;
 
@@ -769,7 +769,7 @@ int Player::slopeEquation(int pente, double *a, double *b)
 
 int Player::checkSlope(Map &map)
 {
-	
+
 	// Initialisation
 	int isOnSlope, goOnSlope, goOnSlopeUp, goOnSlopeDown;
 	isOnSlope = goOnSlope = goOnSlopeUp = goOnSlopeDown = 0;
@@ -813,7 +813,7 @@ int Player::checkSlope(Map &map)
 		goOnSlopeUp = map.getTile(yb - 1, xb);
 	}
 
-	
+
 	else if (map.getTile(yb + 1, xb) >= TILE_PENTE_26_BenH_1 && map.getTile(yb + 1, xb) <= TILE_PENTE_26_HenB_2)
 	{
 		goOnSlopeDown = map.getTile(yb + 1, xb);
@@ -842,14 +842,14 @@ int Player::checkSlope(Map &map)
 		// La Tile "pente" est à la même hauteur que la Tile où se trouve le Sprite
 		yc = yb;
 
-		
+
 		wasOnSlope = goOnSlope;
 
-		
+
 		checkWasOnSlope = 0;
 	}
 
-	
+
 	else if (goOnSlopeUp > 0)
 	{
 		double a, b;
@@ -873,7 +873,7 @@ int Player::checkSlope(Map &map)
 		if (wasOnGround == 0)
 		{
 
-			
+
 			Player::Point segmentD, segmentF;
 
 			// On récupère le segment de la pente
@@ -885,7 +885,7 @@ int Player::checkSlope(Map &map)
 			// Pas d'intersection
 			if (point.x == -1)
 			{
-				
+
 				x = posXmem;
 				dirX = dirXmem;
 				return 0;
@@ -906,7 +906,7 @@ int Player::checkSlope(Map &map)
 			y = point.y;
 			y -= h;
 
-			
+
 			if (dirY > 0)
 			{
 				dirY = 0;
@@ -918,7 +918,7 @@ int Player::checkSlope(Map &map)
 			return 1;
 		}
 
-		
+
 		else
 		{
 
@@ -928,7 +928,7 @@ int Player::checkSlope(Map &map)
 				if (!slopeEquation(goOnSlopeDown, &a, &b)){ return 0; }
 				int xPos = posEndX - xa*TILE_SIZE;
 
-				
+
 				if (dirXmem > 0)
 				{
 					xPos -= TILE_SIZE;
@@ -951,7 +951,7 @@ int Player::checkSlope(Map &map)
 
 	}
 
-	
+
 	if (wasOnSlope > 0 && checkWasOnSlope)
 	{
 		// Si on quitte une montée
@@ -977,7 +977,7 @@ int Player::checkSlope(Map &map)
 	//si on "quitte" une pente (donc que wasOnSlope > 0)
 	if (wasOnSlope > 0)
 	{
-		
+
 		if (wasOnGround == 0)
 		{
 			int newPos = yc * TILE_SIZE + diagOffSet;
