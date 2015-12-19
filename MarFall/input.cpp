@@ -151,8 +151,6 @@ void Input::getInput(RenderWindow &window)
 				break;
 			}
 			break;
-
-			// on ne traite pas les autres types d'évènements
 		default:
 			break;
 		}

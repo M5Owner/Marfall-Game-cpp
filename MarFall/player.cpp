@@ -15,13 +15,11 @@ Player::Player()
 	// le spritesheet de Marfall zin del 3alaaam
 	if (!marfallTexture.loadFromFile("graphics/marfall.png"))
 	{
-		// Erreur
 		cout << "Erreur durant le chargement du spritesheet de Marfall." << endl;
 	}
 	else
 		marfall.setTexture(marfallTexture);
 
-	//Initialisation des variables :
 	dirX = 0;
 	dirY = 0;
 	life = 3;
@@ -72,26 +70,21 @@ void Player::setCheckpoint(bool valeur) { checkpointActif = valeur; }
 
 void Player::initialize(Map &map, bool newLevel)
 {
-	//PV à 3
+
 	life = 3;
 
-	//Timer d'invincibilité à 0
 	invincibleTimer = 0;
 
-	//Indique l'état et la direction de notre héros
 	direction = RIGHT;
 	etat = IDLE;
 
-	//Indique le numéro de la frame où commencer
 	frameNumber = 0;
 
-	//...la valeur de son chrono ou timer
 	frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
 
 
 	frameMax = 8;
 
-	/* Coordonnées de démarrage/respawn de notre héros */
 	if (checkpointActif == true)
 	{
 		x = respawnX;
@@ -103,19 +96,15 @@ void Player::initialize(Map &map, bool newLevel)
 		y = map.getBeginY();
 	}
 
-	//On réinitiliase les coordonnées de la caméra
-	//si on change de niveau
 	if (newLevel == true)
 	{
 		map.setStartX(map.getBeginX());
 		map.setStartY(map.getBeginY());
 	}
 
-	/* Hauteur et largeur de notre héros */
 	w = PLAYER_WIDTH;
 	h = PLAYER_HEIGTH;
 
-	//Variables nécessaires au fonctionnement de la gestion des collisions
 	timerMort = 0;
 	onGround = false;
 
@@ -124,39 +113,29 @@ void Player::initialize(Map &map, bool newLevel)
 
 void Player::draw(Map &map, RenderWindow &window)
 {
-	/* Gestion du timer */
-	// Si notre timer (un compte à rebours en fait) arrive à zéro
 	if (frameTimer <= 0)
 	{
-		//On le réinitialise
 		frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
 
-		//Et on incrémente notre variable qui compte les frames de 1 pour passer à la suivante
 		frameNumber++;
 
-		//Mais si on dépasse la frame max, il faut revenir à la première :
 		if (frameNumber >= frameMax)
 			frameNumber = 0;
 
 	}
-	//Sinon, on décrémente notre timer
 	else
 		frameTimer--;
 
 
-	//Ensuite, on peut passer la main à notre fonction
 	marfall.setPosition(Vector2f(x - map.getStartX(), y - map.getStartY()));
 
 
 
-	//Si on a été touché et qu'on est invincible
 	if (invincibleTimer > 0)
 	{
-		//On fait clignoter le héros une frame sur deux
 
 		if (frameNumber % 2 == 0)
 		{
-			//Gestion du flip 
 			if (direction == LEFT)
 			{
 
@@ -181,10 +160,8 @@ void Player::draw(Map &map, RenderWindow &window)
 
 	else
 	{
-		//Gestion du flip (retournement de l'image selon que le sprite regarde à droite ou à gauche)
 		if (direction == LEFT)
 		{
-			//On n'a plus de flip auto en SFML, il faut donc tout calculer
 			marfall.setTextureRect(sf::IntRect(
 				(frameNumber + 1) * w,
 				etat * h,
@@ -208,18 +185,15 @@ void Player::draw(Map &map, RenderWindow &window)
 void Player::update(Input &input, Map &map)
 {
 
-	//on réinitialise.
 
 	if (timerMort == 0)
 	{
-		//On gère le timer de l'invincibilité
 		if (invincibleTimer > 0)
 			invincibleTimer--;
 
 
 		dirX = 0;
 
-		// La gravité fait toujours tomber le perso : on incrémente donc le vecteur Y
 		dirY += GRAVITY_SPEED;
 
 
@@ -237,7 +211,6 @@ void Player::update(Input &input, Map &map)
 
 			if (etat != WALK && onGround == true)
 			{
-				//On enregistre l'anim' de la marche et on l'initialise à 0
 				etat = WALK;
 				frameNumber = 0;
 				frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
@@ -245,19 +218,14 @@ void Player::update(Input &input, Map &map)
 			}
 		}
 
-		//Si on détecte un appui sur la touche fléchée droite
 		else if (input.getButton().right == true)
 		{
-			//On augmente les coordonnées en x du joueur
 			dirX += PLAYER_SPEED;
-			//Et on indique qu'il va à droite (pour le flip
-			//de l'affichage, rappelez-vous).
 			direction = RIGHT;
 
 
 			if (etat != WALK && onGround == true)
 			{
-				//On enregistre l'anim' de la marche et on l'initialise à 0
 				etat = WALK;
 				frameNumber = 0;
 				frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
@@ -265,14 +233,10 @@ void Player::update(Input &input, Map &map)
 			}
 		}
 
-		//Si on n'appuie sur rien et qu'on est sur le sol, on charge l'animation marquant l'inactivité (Idle)
 		else if (input.getButton().right == false && input.getButton().left == false && onGround == true)
 		{
-			//On teste si le joueur n'était pas déjà inactif, pour ne pas recharger l'animation
-			//à chaque tour de boucle
 			if (etat != IDLE)
 			{
-				//On enregistre l'anim' de l'inactivité et on l'initialise à 0
 				etat = IDLE;
 				frameNumber = 0;
 				frameTimer = TIME_BETWEEN_2_FRAMES_PLAYER;
@@ -291,7 +255,6 @@ void Player::update(Input &input, Map &map)
 				onGround = false;
 				Playerjump = true;
 			}
-			// Si on est en saut 1, on peut faire un deuxième bond et on remet jump1 à 0 
 			else if (Playerjump == true)
 			{
 				dirY = -JUMP_HEIGHT;
@@ -301,15 +264,12 @@ void Player::update(Input &input, Map &map)
 		}
 
 
-		/* Réactive la possibilité de double saut si on tombe sans sauter */
 		if (onGround == true)
 			Playerjump = true;
 
 
-		//On gère l'anim du saut
 		if (onGround == false)
 		{
-			//Si on est en saut 1, on met l'anim' du saut normal
 			if (Playerjump == true)
 			{
 				if (etat != JUMP1)
@@ -335,7 +295,6 @@ void Player::update(Input &input, Map &map)
 
 		mapCollision(map);
 
-		//On gère le scrolling
 		centerScrolling(map);
 
 	}
@@ -347,10 +306,8 @@ void Player::update(Input &input, Map &map)
 
 		if (timerMort == 0)
 		{
-			//On perd une vie
 			vies--;
 
-			// Si on est mort, on réinitialise le niveau
 			map.changeLevel();
 			initialize(map, false);
 		}
@@ -374,7 +331,6 @@ void Player::centerScrolling(Map &map)
 		map.setStartX(map.getStartX() - 30);
 	}
 
-	//Si on dépasse par la gauche, on recule la caméra
 	else if (cxperso < xlimmin)
 	{
 		map.setStartX(map.getStartX() - 4);
@@ -386,13 +342,11 @@ void Player::centerScrolling(Map &map)
 		map.setStartX(map.getStartX() + 30);
 	}
 
-	//Si on dépasse par la droite, on avance la caméra
 	else if (cxperso > xlimmax)
 	{
 		map.setStartX(map.getStartX() + 4);
 	}
 
-	//Si on arrive au bout de la map à gauche, on stoppe le scrolling
 	if (map.getStartX() < 0)
 	{
 		map.setStartX(0);
@@ -404,16 +358,13 @@ void Player::centerScrolling(Map &map)
 		map.setStartX(map.getMaxX() - SCREEN_WIDTH);
 	}
 
-	//Si on dépasse par le haut, on remonte la caméra
 	if (cyperso < ylimmin)
 	{
 		map.setStartY(map.getStartY() - 4);
 	}
 
-	//Si on dépasse par le bas, on descend la caméra
 	if (cyperso > ylimmax)
 	{
-		//Sauf si on tombe très vite, auquel cas, on accélère la caméra :
 		if (dirY >= MAX_FALL_SPEED - 2)
 		{
 			map.setStartY(map.getStartY() + MAX_FALL_SPEED + 1);
@@ -424,7 +375,6 @@ void Player::centerScrolling(Map &map)
 		}
 	}
 
-	//Si on arrive au bout de la map en haut, on stoppe le scrolling
 	if (map.getStartY() < 0)
 	{
 		map.setStartY(0);
@@ -444,7 +394,6 @@ void Player::mapCollision(Map &map)
 
 	int i, x1, x2, y1, y2;
 
-	// Récup des infos pour la gestion des pentes 
 	dirXmem = dirX;
 	wasOnGround = onGround;
 	dirYmem = dirY;
@@ -462,12 +411,8 @@ void Player::mapCollision(Map &map)
 		i = h;
 
 
-	//On lance alors une boucle for infinie car on l'interrompra selon
-	//les résultats de nos calculs
 	for (;;)
 	{
-		//On va calculer ici les coins de notre sprite à gauche et à
-		//droite pour voir quelle tile ils touchent.
 		x1 = (x + dirX) / TILE_SIZE;
 		x2 = (x + dirX + w - 1) / TILE_SIZE;
 
@@ -478,10 +423,8 @@ void Player::mapCollision(Map &map)
 
 		if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
 		{
-			//Si on a un mouvement à droite
 			if (dirX > 0)
 			{
-				//On vérifie si les tiles recouvertes sont solides
 				if (map.getTile(y1, x2) > BLANK_TILE || map.getTile(y2, x2) > BLANK_TILE)
 				{
 
@@ -493,7 +436,6 @@ void Player::mapCollision(Map &map)
 				}
 			}
 
-			//Même chose à gauche
 			else if (dirX < 0)
 			{
 				if (map.getTile(y1, x1) > BLANK_TILE || map.getTile(y2, x1) > BLANK_TILE)
@@ -506,13 +448,11 @@ void Player::mapCollision(Map &map)
 
 		}
 
-		//On sort de la boucle si on a testé toutes les tiles le long de la hauteur du sprite.
 		if (i == h)
 		{
 			break;
 		}
 
-		//Sinon, on teste les tiles supérieures en se limitant à la heuteur du sprite.
 		i += TILE_SIZE;
 
 		if (i > h)
@@ -522,7 +462,6 @@ void Player::mapCollision(Map &map)
 	}
 
 
-	//On recommence la même chose avec le mouvement vertical (axe des Y)
 	if (w > TILE_SIZE)
 		i = TILE_SIZE;
 	else
@@ -544,8 +483,6 @@ void Player::mapCollision(Map &map)
 
 				if (map.getTile(y2, x1) > TILE_TRAVERSABLE || map.getTile(y2, x2) > TILE_TRAVERSABLE)
 				{
-					//Si la tile est une plateforme ou une tile solide, on y colle le joueur et
-					//on le déclare sur le sol (onGround).
 					y = y2 * TILE_SIZE;
 					y -= h;
 					dirY = 0;
@@ -556,7 +493,6 @@ void Player::mapCollision(Map &map)
 
 			else if (dirY < 0)
 			{
-				// Déplacement vers le haut 
 				if (map.getTile(y1, x1) > BLANK_TILE || map.getTile(y1, x2) > BLANK_TILE)
 				{
 					y = (y1 + 1) * TILE_SIZE;
@@ -566,7 +502,6 @@ void Player::mapCollision(Map &map)
 			}
 		}
 
-		//On teste la largeur du sprite (même technique que pour la hauteur précédemment)
 		if (i == w)
 		{
 			break;
@@ -580,14 +515,11 @@ void Player::mapCollision(Map &map)
 		}
 	}
 
-	// Contrôle des pentes 
 	checkSlope(map);
 
-	/* Maintenant, on applique les vecteurs de mouvement si le sprite n'est pas bloqué */
 	x += dirX;
 	y += dirY;
 
-	//Et on contraint son déplacement aux limites de l'écran.
 	if (x < 0)
 	{
 		x = 0;
@@ -595,13 +527,9 @@ void Player::mapCollision(Map &map)
 
 	else if (x + w >= map.getMaxX())
 	{
-		//Si on touche le bord droit de l'écran, on annule
-		//et on limite le déplacement du joueur
 		x = map.getMaxX() - w - 1;
 	}
 
-	//Maintenant, s'il sort de l'écran par le bas (chute dans un trou sans fond), on lance le timer
-	//qui gère sa mort et sa réinitialisation
 	if (y > map.getMaxY())
 	{
 		timerMort = 60;
@@ -614,8 +542,6 @@ Player::Point Player::segment2segment(int Ax0, int Ay0, int Bx0, int By0, int Cx
 {
 
 
-	// Cette fonciton permet de savoir si 2 segments se touchent
-	// En paramètres, les coordonnées des points du segment AB et du segment CD
 
 	double Sx;
 	double Sy;
@@ -711,7 +637,6 @@ void Player::getSlopeSegment(int tx, int ty, int pente, Point &s1, Point &s2)
 	}
 
 
-	// On ajoute la distance depuis le début/haut de la Map
 	s1.x = tx*TILE_SIZE;
 	s1.y = (ty + 1)*TILE_SIZE - cy;
 	s2.x = (tx + 1)*TILE_SIZE;
@@ -721,18 +646,14 @@ void Player::getSlopeSegment(int tx, int ty, int pente, Point &s1, Point &s2)
 
 int Player::slopeEquation(int pente, double *a, double *b)
 {
-	//Adaptation de la fonction écrite par Stephantasy en SFML2
 
 	const double xLeft = 0;
 	const double xRight = 32.0;
 	int yLeft, yRight;
 
-	// On retourne son équation de la pente
-	// Diagonale à 26.5°
 
 	if (pente == TILE_PENTE_26_BenH_1)
 	{
-		// Début et fin de la pente dans la Tile (en Y)
 		yLeft = 0;
 		yRight = 16;
 	}
@@ -757,9 +678,8 @@ int Player::slopeEquation(int pente, double *a, double *b)
 		return 0;
 	}
 
-	// On détermine l'équation
-	double cd = (yRight - yLeft) / (xRight - xLeft); // Coefficient directeur
-	double oo = yLeft - cd * 0; // Ordonnée à l'origine
+	double cd = (yRight - yLeft) / (xRight - xLeft); 
+	double oo = yLeft - cd * 0; 
 	*a = cd;
 	*b = oo;
 
@@ -777,37 +697,31 @@ int Player::checkSlope(Map &map)
 	int yc;
 	int resetWasOnSlope = 0, checkWasOnSlope = 1;
 
-	// Si on ne touche plus le sol, on ne se soucis plus de savoir qu'on était sur une pente.
 	if (wasOnGround == 0)
 	{
 		wasOnSlope = 0;
 	}
 
-	// On récupère la position du Sprite (à noter qu'on effectue les tests avec le point "en bas au centre" du Sprite)
 	int posIniX = posXmem + w / 2;
 	int xa = posIniX / TILE_SIZE;
 	int posIniY = posYmem + h - 1;
 	int ya = posIniY / TILE_SIZE;
 
-	// On récupère la destination du Sprite
 	int posEndX = posIniX + dirXmem;
 	int xb = posEndX / TILE_SIZE;
 	int posEndY = posIniY + 1 + dirYmem;
 	int yb = posEndY / TILE_SIZE;
 
-	// Est-ce qu'on est sur une pente ?
 	if (map.getTile(ya, xa) >= TILE_PENTE_26_BenH_1 && map.getTile(ya, xa) <= TILE_PENTE_26_HenB_2)
 	{
 		isOnSlope = map.getTile(ya, xa);
 	}
 
-	// Est-ce qu'on va sur une pente ?
 	if (map.getTile(yb, xb) >= TILE_PENTE_26_BenH_1 && map.getTile(yb, xb) <= TILE_PENTE_26_HenB_2)
 	{
 		goOnSlope = map.getTile(yb, xb);
 	}
 
-	// Est-ce que la Tile au-dessus de la destination du Sprite est une pente ?
 	if (map.getTile(yb - 1, xb) >= TILE_PENTE_26_BenH_1 && map.getTile(yb - 1, xb) <= TILE_PENTE_26_HenB_2)
 	{
 		goOnSlopeUp = map.getTile(yb - 1, xb);
@@ -819,27 +733,20 @@ int Player::checkSlope(Map &map)
 		goOnSlopeDown = map.getTile(yb + 1, xb);
 	}
 
-	// Si on se dirige vers une pente
 	if (goOnSlope > 0)
 	{
 		double a, b;
 
-		// On récupère l'équation de la pente
 		if (!slopeEquation(goOnSlope, &a, &b)){ return 0; }
 
-		// On determine la position en x du Sprite dans la Tile
 		int xPos = posEndX - xb*TILE_SIZE;
 
-		// On calcule sa position en y
 		int yPos = a * xPos + b;
 
-		// On borne le ypos à 31
 		if (yPos > 31) { yPos = 31; }
 
-		// On calcul l'Offset entre le haut de la Tile et le sol de la pente
 		diagOffSet = TILE_SIZE - yPos;
 
-		// La Tile "pente" est à la même hauteur que la Tile où se trouve le Sprite
 		yc = yb;
 
 
@@ -859,30 +766,24 @@ int Player::checkSlope(Map &map)
 		if (yPos > 31) { yPos = 31; }
 		diagOffSet = TILE_SIZE - yPos;
 
-		// La Tile "pente" est 1 Tile au-dessus de la Tile où se trouve le Sprite
 		yc = yb - 1;
 
 		wasOnSlope = goOnSlopeUp;
 		checkWasOnSlope = 0;
 	}
 
-	// Si on tombe ici, c'est que le Sprite ne va pas sur une pente mais qu'il est sur une pente.
 	else if (isOnSlope > 0)
 	{
-		// Si on est en l'air,
 		if (wasOnGround == 0)
 		{
 
 
 			Player::Point segmentD, segmentF;
 
-			// On récupère le segment de la pente
 			getSlopeSegment(xa, ya, isOnSlope, segmentD, segmentF);
 
-			// On récupère la position du point de collision entre les segments (s'il y a lieu, sinon -1)
 			Player::Point point = segment2segment(posIniX, posIniY, posEndX, posEndY, segmentD.x, segmentD.y, segmentF.x, segmentF.y);
 
-			// Pas d'intersection
 			if (point.x == -1)
 			{
 
@@ -893,14 +794,12 @@ int Player::checkSlope(Map &map)
 
 			else if (point.x < -1)
 			{
-				// Erreur dans la fonction "segment2segment()", on ne doit pas retourner de valeur < -1 !
 				cout << "ERROR - segment2segment() - Sprite aux coordonnées négatives !\n" << endl;
 				x = posXmem;
 				dirX = dirXmem;
 				return 0;
 			}
 
-			// On positionne le Sprite
 			x = point.x - w / 2;
 			dirX = 0;
 			y = point.y;
@@ -946,7 +845,6 @@ int Player::checkSlope(Map &map)
 				checkWasOnSlope = 0;
 			}
 
-			// sinon on fait la transition en douceur avec "entity->wasOnSlope" ("checkWasOnSlope" restant à true)
 		}
 
 	}
@@ -954,14 +852,12 @@ int Player::checkSlope(Map &map)
 
 	if (wasOnSlope > 0 && checkWasOnSlope)
 	{
-		// Si on quitte une montée
 		if ((dirXmem > 0 && wasOnSlope == TILE_PENTE_26_BenH_2) ||
 			(dirXmem < 0 && wasOnSlope == TILE_PENTE_26_HenB_1))
 		{
 			yc = ya;
 		}
 
-		// Si on quitte une descente
 		else
 		{
 			if ((dirXmem > 0 && wasOnSlope == TILE_PENTE_26_HenB_2) ||
@@ -974,7 +870,6 @@ int Player::checkSlope(Map &map)
 		resetWasOnSlope = 1;
 	}
 
-	//si on "quitte" une pente (donc que wasOnSlope > 0)
 	if (wasOnSlope > 0)
 	{
 
@@ -992,7 +887,6 @@ int Player::checkSlope(Map &map)
 			}
 		}
 
-		// On positionne le Sprite sur la pente
 		x = posXmem;
 		dirX = dirXmem;
 		y = yc * TILE_SIZE + diagOffSet;
@@ -1000,7 +894,6 @@ int Player::checkSlope(Map &map)
 		dirY = 0;
 		onGround = 1;
 
-		// On n'oublie pas de remettre wasOnSlope à 0 si nécéssaire
 		if (resetWasOnSlope)
 		{
 			wasOnSlope = 0;

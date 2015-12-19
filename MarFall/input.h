@@ -29,11 +29,9 @@ public:
 
 private:
 
-	//Variables de la classe en accès privé
 	sf::Event event;
 	Button button;
 
-	//Enum pour les boutons
 	const enum{ up, down, right, left, attack, jump, enter };
 
 };
