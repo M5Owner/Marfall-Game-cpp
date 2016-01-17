@@ -1,6 +1,6 @@
 # Marfall-Game-cpp
 
-le projet du module genie logiciel II S5
+le projet du module genie logiciel II S5 (2015/2016)
 
 le projet est un jeu 2D de type platformer, donc le but est de traverser les obstacles et eviter les dangers rencontrés dans le chemin.
 
